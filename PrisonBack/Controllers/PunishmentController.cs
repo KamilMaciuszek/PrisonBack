@@ -27,13 +27,13 @@ namespace PrisonBack.Controllers
             _loggerService = loggerService;
         }
         [HttpGet("{id}")]
-        public ActionResult<Punishment> SelectedPunishment(int id)
+        public ActionResult<Punishment> SelectedPunishment([FromBody] int id)
         {
             var punishment = _punishmentService.SelectedPunishment(id);
             return Ok(_mapper.Map<PunishmentVM>(punishment));
         }
         [HttpPost]
-        public ActionResult<Punishment> AddPunishment(PunishmentDTO punishmentDTO)
+        public ActionResult<Punishment> AddPunishment([FromBody] PunishmentDTO punishmentDTO)
         {
             string userName = User.Identity.Name;
 
@@ -49,7 +49,7 @@ namespace PrisonBack.Controllers
             return NoContent();
         }
         [HttpDelete("{id}")]
-        public ActionResult DeletePunishment(int id)
+        public ActionResult DeletePunishment([FromBody] int id)
         {
             string userName = User.Identity.Name;
 
@@ -65,7 +65,7 @@ namespace PrisonBack.Controllers
             return Ok();
         }
         [HttpPut("{id}")]
-        public ActionResult UpdatePunishment(int id, PunishmentDTO punishmentDTO)
+        public ActionResult UpdatePunishment([FromBody] int id, [FromBody] PunishmentDTO punishmentDTO)
         {
             string userName = User.Identity.Name;
 

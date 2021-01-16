@@ -28,7 +28,7 @@ namespace PrisonBack.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<CellVM> SelectedCell(int id)
+        public ActionResult<CellVM> SelectedCell([FromHeader] int id)
         {
             var cell = _cellService.SelectedCell(id);
             return Ok(_mapper.Map<CellVM>(cell));
@@ -42,13 +42,17 @@ namespace PrisonBack.Controllers
             return cell;
         }
         [HttpPost]
-        public ActionResult<CellVM> AddCell(CellDTO cellDTO)
+        public ActionResult<CellVM> AddCell([FromBody] CellDTO cellDTO)
         {
             string userName = User.Identity.Name;
 
             var cellModel = _mapper.Map<Cell>(cellDTO);
             cellModel.IdPrison = _cellService.PrisonID(userName);
+<<<<<<< Updated upstream:PrisonBack/Controllers/PCellsController.cs
             if (cellModel.Id == null)
+=======
+            if ((cellModel.Id == null)&&(cellModel.IdCellType == 0))
+>>>>>>> Stashed changes:PrisonBack/PrisonBack/Controllers/PCellsController.cs
             {
                 return NotFound();
             }
@@ -58,7 +62,7 @@ namespace PrisonBack.Controllers
             return Ok();
         }
         [HttpDelete("{id}")]
-        public ActionResult DeleteCell(int id)
+        public ActionResult DeleteCell([FromBody] int id)
         {
             string userName = User.Identity.Name;
             var cell = _cellService.SelectedCell(id);
@@ -72,7 +76,7 @@ namespace PrisonBack.Controllers
             return Ok();
         }
         [HttpPut("{id}")]
-        public ActionResult UpdateCell(int id, CellDTO cellDTO)
+        public ActionResult UpdateCell([FromBody] int id, [FromBody] CellDTO cellDTO)
         {
             string userName = User.Identity.Name;
             var cell = _cellService.SelectedCell(id);

@@ -28,7 +28,7 @@ namespace PrisonBack.Controllers
             _loggerService = loggerService;
         }
         [HttpGet("{id}")]
-        public ActionResult<PassVM> SelectedPass(int id)
+        public ActionResult<PassVM> SelectedPass([FromBody] int id)
         {
             var pass = _passService.SelectedPass(id);
             return Ok(_mapper.Map<PassVM>(pass));
@@ -42,7 +42,7 @@ namespace PrisonBack.Controllers
             return pass;
         }
         [HttpPost]
-        public ActionResult<PassVM> AddPass(PassDTO passDTO)
+        public ActionResult<PassVM> AddPass([FromBody] PassDTO passDTO)
         {
             string userName = User.Identity.Name;
             var passModel = _mapper.Map<Pass>(passDTO);
@@ -59,7 +59,7 @@ namespace PrisonBack.Controllers
             return Ok();
         }
         [HttpDelete("{id}")]
-        public ActionResult DeletePass(int id)
+        public ActionResult DeletePass([FromBody] int id)
         {
             string userName = User.Identity.Name;
             var pass = _passService.SelectedPass(id);
@@ -78,7 +78,7 @@ namespace PrisonBack.Controllers
             return Ok();
         }
         [HttpPut("{id}")]
-        public ActionResult UpdatePass(int id, PassDTO passDTO)
+        public ActionResult UpdatePass([FromBody] int id, [FromBody] PassDTO passDTO)
         {
             string userName = User.Identity.Name;
             var pass = _passService.SelectedPass(id);

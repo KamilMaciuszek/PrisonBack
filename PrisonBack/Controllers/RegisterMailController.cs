@@ -21,7 +21,7 @@ namespace PrisonBack.Controllers
             _mailService = mailService;
         }
         [HttpPost("send")]
-        public async Task<IActionResult> SendMail([FromForm] MailRequest request)
+        public async Task<IActionResult> SendMail([FromBody] MailRequest request)
         {
             try
             {

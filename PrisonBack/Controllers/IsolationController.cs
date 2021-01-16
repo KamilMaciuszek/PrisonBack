@@ -28,7 +28,7 @@ namespace PrisonBack.Controllers
             _loggerService = loggerService;
         }
         [HttpGet("{id}")]
-        public ActionResult<PassVM> SelectedIsolation(int id)
+        public ActionResult<PassVM> SelectedIsolation([FromBody] int id)
         {
             var isolation = _isolationService.SelectedIsolation(id);
             return Ok(_mapper.Map<IsolationVM>(isolation));
@@ -42,7 +42,7 @@ namespace PrisonBack.Controllers
             return isolations;
         }
         [HttpPost]
-        public ActionResult<IsolationVM> AddPass(IsolationDTO isolationDTO)
+        public ActionResult<IsolationVM> AddPass([FromBody] IsolationDTO isolationDTO)
         {
             string userName = User.Identity.Name;
             var isolationModel = _mapper.Map<Isolation>(isolationDTO);
@@ -57,7 +57,7 @@ namespace PrisonBack.Controllers
             return Ok();
         }
         [HttpDelete("{id}")]
-        public ActionResult DeleteIsolation(int id)
+        public ActionResult DeleteIsolation([FromBody] int id)
         {
             string userName = User.Identity.Name;
 
@@ -76,7 +76,7 @@ namespace PrisonBack.Controllers
             return Ok();
         }
         [HttpPut("{id}")]
-        public ActionResult UpdateIsolation(int id, IsolationDTO isolationDTO)
+        public ActionResult UpdateIsolation([FromBody] int id, [FromBody] IsolationDTO isolationDTO)
         {
             string userName = User.Identity.Name;
             var isolation = _isolationService.SelectedIsolation(id);
