@@ -19,7 +19,7 @@ namespace PrisonBack.Persistence.Repositories
         public async Task<IEnumerable<Isolation>> AllIsolations(string userName)
         {
             var prison = _context.UserPermissions.FirstOrDefault(x => x.UserName == userName);
-            return await _context.Isolations.Where(x => x.Prisoner.Cell.Prison.Id == prison.Id).ToListAsync(); ;
+            return await _context.Isolations.Where(x => x.Prisoner.Cell.Prison.Id == prison.Id).ToListAsync();
         }
 
         public void CreateIsolation(Isolation isolation)

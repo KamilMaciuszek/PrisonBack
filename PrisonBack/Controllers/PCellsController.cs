@@ -48,11 +48,8 @@ namespace PrisonBack.Controllers
 
             var cellModel = _mapper.Map<Cell>(cellDTO);
             cellModel.IdPrison = _cellService.PrisonID(userName);
-<<<<<<< Updated upstream:PrisonBack/Controllers/PCellsController.cs
-            if (cellModel.Id == null)
-=======
+
             if ((cellModel.Id == null)&&(cellModel.IdCellType == 0))
->>>>>>> Stashed changes:PrisonBack/PrisonBack/Controllers/PCellsController.cs
             {
                 return NotFound();
             }
