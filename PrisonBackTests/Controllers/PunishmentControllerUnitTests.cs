@@ -37,13 +37,11 @@ namespace PrisonBackTests.Controllers
             var punishmentController = new PunishmentController(
                 this._mockPunishmentService.Object,
                 this._mockMapper.Object,
-            this._mockLoggerService.Object);
-
-            punishmentController.ControllerContext = new ControllerContext();
-            punishmentController.ControllerContext.HttpContext = new DefaultHttpContext
+                this._mockLoggerService.Object)
             {
-                User = user
+                ControllerContext = new ControllerContext {HttpContext = new DefaultHttpContext {User = user}}
             };
+
             return punishmentController;
         }
 
@@ -55,7 +53,7 @@ namespace PrisonBackTests.Controllers
             int id = 0;
 
             // Act
-            var result = punishmentController.SelectedPunishment(
+            punishmentController.SelectedPunishment(
                 id);
 
             // Assert
@@ -70,7 +68,7 @@ namespace PrisonBackTests.Controllers
             PunishmentDTO punishmentDto = new PunishmentDTO();
 
             // Act
-            var result = punishmentController.AddPunishment(
+            punishmentController.AddPunishment(
                 punishmentDto);
 
             // Assert
@@ -85,7 +83,7 @@ namespace PrisonBackTests.Controllers
             int id = 0;
 
             // Act
-            var result = punishmentController.DeletePunishment(
+            punishmentController.DeletePunishment(
                 id);
 
             // Assert
@@ -101,7 +99,7 @@ namespace PrisonBackTests.Controllers
             PunishmentDTO punishmentDto = new PunishmentDTO();
 
             // Act
-            var result = punishmentController.UpdatePunishment(
+            punishmentController.UpdatePunishment(
                 id,
                 punishmentDto);
 

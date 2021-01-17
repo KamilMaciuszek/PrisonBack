@@ -9,8 +9,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.SqlServer.Management.Smo;
-using NUnit.Framework.Internal;
 using PrisonBack.Domain.Models;
 using PrisonBack.Mapping;
 using PrisonBack.Resources.DTOs;
@@ -19,17 +17,18 @@ using PrisonBack.Resources.ViewModels;
 namespace PrisonBackTests.Controllers
 {
     [TestFixture]
-    public class PassControllerUnitTests
+    public class IsolationControllerUnitTests
     {
-        private Mock<IPassService> _mockPassService;
+
+        private Mock<IIsolationService> _mockIsolationService;
         private IMapper _mapper;
         private Mock<ILoggerService> _mockLoggerService;
-
 
         [SetUp]
         public void SetUp()
         {
-            _mockPassService = new Mock<IPassService>();
+
+            _mockIsolationService = new Mock<IIsolationService>();
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new ModelToResourceProfile());
@@ -39,76 +38,74 @@ namespace PrisonBackTests.Controllers
             _mockLoggerService = new Mock<ILoggerService>();
         }
 
-        PassController CreatePassController()
+        IsolationController CreateIsolationController()
         {
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Name, "abcd")
             }));
-            var passController = new PassController(
-                _mockPassService.Object,
+            var isolationController = new IsolationController(
+                _mockIsolationService.Object,
                 _mapper,
                 _mockLoggerService.Object)
             {
                 ControllerContext = new ControllerContext()
             };
-            passController.ControllerContext.HttpContext = new DefaultHttpContext{User = user};
+            isolationController.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
 
-            return passController;
-
+            return isolationController;
         }
 
         [Test]
-        public void SelectedPass_UnitTests()
+        public void SelectedIsolationUnitTests()
         {
             // Arrange
-            var passController = CreatePassController();
+            var isolationController = this.CreateIsolationController();
             int id = 0;
 
             // Act
-            var result = passController.SelectedPass(
+            var result = isolationController.SelectedIsolation(
                 id);
 
             // Assert
-            Assert.IsInstanceOf<ActionResult<PassVM>>(result);
+            Assert.IsInstanceOf<ActionResult<IsolationVM>>(result);
         }
 
         [Test]
-        public async Task AllPasses_UnitTests()
+        public async Task AllIsolationsUnitTests()
         {
             // Arrange
-            var passController = CreatePassController();
+            var isolationController = this.CreateIsolationController();
 
             // Act
-            var result = await passController.AllPasses();
+            var result = await isolationController.AllIsolations();
 
             // Assert
-            Assert.IsInstanceOf<IEnumerable<Pass>>(result);
+            Assert.IsInstanceOf<IEnumerable<Isolation>>(result);
         }
 
         [Test]
-        public void AddPass_UnitTests()
+        public void AddPassUnitTests()
         {
             // Arrange
-            var passController = CreatePassController();
+            var isolationController = this.CreateIsolationController();
 
             // Act
-            var result = passController.AddPass(
-                new PassDTO {EndDate = DateTime.Today.AddDays(1),IdPrisoner = 1,StartDate = DateTime.Today});
+            var result = isolationController.AddIsolation(new IsolationDTO());
 
             // Assert
-            Assert.IsInstanceOf<ActionResult<PassVM>>(result);
+            Assert.IsInstanceOf<ActionResult<IsolationVM>>(result);
         }
 
         [Test]
-        public void DeletePass_UnitTests()
+        public void DeleteIsolationUnitTests()
         {
             // Arrange
-            var passController = CreatePassController();
+            var isolationController = this.CreateIsolationController();
             int id = 0;
 
             // Act
-            var result = passController.DeletePass(
+            var result = isolationController.DeleteIsolation(
                 id);
 
             // Assert
@@ -116,16 +113,17 @@ namespace PrisonBackTests.Controllers
         }
 
         [Test]
-        public void UpdatePass_UnitTests()
+        public void UpdateIsolationUnitTests()
         {
             // Arrange
-            var passController = CreatePassController();
+            var isolationController = this.CreateIsolationController();
             int id = 0;
-            PassDTO passDto = null;
+            IsolationDTO isolationDTO = null;
 
             // Act
-            var result = passController.UpdatePass(
-                id, passDto);
+            var result = isolationController.UpdateIsolation(
+                id,
+                isolationDTO);
 
             // Assert
             Assert.IsInstanceOf<ActionResult>(result);

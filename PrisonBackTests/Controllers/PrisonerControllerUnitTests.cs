@@ -41,14 +41,12 @@ namespace PrisonBackTests.Controllers
             var prisonerController = new PrisonerController(
                 _mockPrisonerService.Object,
                 _mockMapper.Object,
-                _mockLoggerService.Object);
-
-            
-            prisonerController.ControllerContext = new ControllerContext();
-            prisonerController.ControllerContext.HttpContext = new DefaultHttpContext
+                _mockLoggerService.Object)
             {
-                User = user
+                ControllerContext = new ControllerContext {HttpContext = new DefaultHttpContext {User = user}}
             };
+
+
             return prisonerController;
         }
 
@@ -88,7 +86,6 @@ namespace PrisonBackTests.Controllers
         {
             // Arrange
             var prisonerController = this.CreatePrisonerController();
-            PrisonerDTO prisonerDto = new PrisonerDTO();
 
             // Act
             var result = prisonerController.AllPrisoner();

@@ -45,11 +45,9 @@ namespace PrisonBackTests.Controllers
             var pCellsController = new PCellsController(
                 _mockCellService.Object,
                 _mockMapper.Object,
-                _mockLoggerService.Object);
-            pCellsController.ControllerContext = new ControllerContext();
-            pCellsController.ControllerContext.HttpContext = new DefaultHttpContext
+                _mockLoggerService.Object)
             {
-                User = user
+                ControllerContext = new ControllerContext {HttpContext = new DefaultHttpContext {User = user}}
             };
             return pCellsController;
         }
@@ -74,7 +72,6 @@ namespace PrisonBackTests.Controllers
         {
             // Arrange
             var pCellsController = this.CreatePCellsController();
-            int id = 0;
 
             // Act
             var result = await pCellsController.AllCell();
@@ -88,7 +85,7 @@ namespace PrisonBackTests.Controllers
         {
             // Arrange
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(databaseName: "database_to_add_cell")
+                .UseInMemoryDatabase(databaseName: "database_to_add_cellUT")
                 .Options;
 
             var appDbContext = new AppDbContext(options);

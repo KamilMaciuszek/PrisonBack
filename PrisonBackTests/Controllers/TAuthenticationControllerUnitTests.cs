@@ -27,7 +27,6 @@ namespace PrisonBackTests.Controllers
         private Mock<RoleManager<IdentityRole>> _roleManager;
         private Mock<IConfiguration> _mockConfiguration;
         private Mock<IInviteCodeService> _mockInviteCodeService;
-        private Mock<IAddUserRepository> _mockAddUserRepository;
 
         Mock<RoleManager<TIdentityRole>> GetRoleManagerMock<TIdentityRole>() where TIdentityRole : IdentityRole
         {
@@ -59,13 +58,12 @@ namespace PrisonBackTests.Controllers
             _roleManager = GetRoleManagerMock<IdentityRole>();
             _mockConfiguration = new Mock<IConfiguration>();
             _mockInviteCodeService = new Mock<IInviteCodeService>();
-            _mockAddUserRepository = new Mock<IAddUserRepository>();
         }
         
         private AuthenticationController CreateAuthenticationController()
         {
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(databaseName: "Add_writes_to_Add_Punishment_database")
+                .UseInMemoryDatabase(databaseName: "Add_writes_to_authenticate")
                 .Options;
 
             var appDbContext = new AppDbContext(options);
@@ -86,7 +84,7 @@ namespace PrisonBackTests.Controllers
             LoginModel model = new LoginModel();
 
             // Act
-            var result = await authenticationController.Login(
+            await authenticationController.Login(
                 model);
 
             // Assert
@@ -105,7 +103,7 @@ namespace PrisonBackTests.Controllers
             RegisterModel model = new RegisterModel();
 
             // Act
-            var result = await authenticationController.Register(
+            await authenticationController.Register(
                 model);
 
             // Assert
@@ -119,8 +117,7 @@ namespace PrisonBackTests.Controllers
         public async Task RegisterAdminUnitTests()
         {
             // Arrange
-            var authenticationController =CreateAuthenticationController();
-            RegisterModel model = new RegisterModel();
+            CreateAuthenticationController();
             // Act
             // var result = await authenticationController.RegisterAdmin(
             //     model); TODO
