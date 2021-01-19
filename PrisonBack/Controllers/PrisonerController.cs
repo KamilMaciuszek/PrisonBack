@@ -31,7 +31,7 @@ namespace PrisonBack.Controllers
 		[HttpGet("{id}")]
 
 
-		public ActionResult<PrisonerVM> SelectedPrisoner([FromBody] int id)
+		public ActionResult<PrisonerVM> SelectedPrisoner(int id)
 		{
 			var prisoner = _prisonerService.SelectedPrisoner(id);
 			return Ok(_mapper.Map<PrisonerVM>(prisoner));
@@ -55,7 +55,7 @@ namespace PrisonBack.Controllers
 			return Ok();
 		}
 		[HttpDelete("{id}")]
-		public ActionResult DeletePrisoner([FromBody] int id)
+		public ActionResult DeletePrisoner(int id)
 		{
 			string userName = User.Identity.Name;
 
@@ -72,7 +72,7 @@ namespace PrisonBack.Controllers
 			return Ok();
 		}
 		[HttpPut("{id}")]
-		public ActionResult UpdatePrisoner([FromBody] int id, [FromBody] PrisonerDTO prisonerDTO)
+		public ActionResult UpdatePrisoner(int id, [FromBody] PrisonerDTO prisonerDTO)
 		{
 			string userName = User.Identity.Name;
 

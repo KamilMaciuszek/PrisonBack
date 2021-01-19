@@ -21,6 +21,7 @@ using PrisonBack.Auth;
 using PrisonBack.Mailing;
 using PrisonBack.Mailing.Service;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 
 namespace PrisonBack
 {
@@ -39,6 +40,7 @@ namespace PrisonBack
             services.AddControllers();
             services.AddSwaggerGen(options =>
             {
+                options.EnableAnnotations();
                 options.SwaggerDoc("v1",
                     new Microsoft.OpenApi.Models.OpenApiInfo
                     {
@@ -46,6 +48,26 @@ namespace PrisonBack
                         Description = "Backend prison uruchomiony w Swagger",
                         Version = "v1"
                     });
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Prosze podac kod w formacie (bearer KOD)",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+   {
+     new OpenApiSecurityScheme
+     {
+       Reference = new OpenApiReference
+       {
+         Type = ReferenceType.SecurityScheme,
+         Id = "Bearer"
+       }
+      },
+      new string[] { }
+    }
+  });
             });
             services.AddDbContext<AppDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("PrisonDbContext"));

@@ -9,7 +9,7 @@ namespace PrisonBack.Domain.Repositories
     public interface ICellRepository
     {
         Cell SelectedCell(int id);
-        Task<IEnumerable<Cell>> AllCell(string userName);
+        List<Cell> AllCell(string userName);
         bool SaveChanges();
         void CreateCell(Cell cell);
         void DeleteCell(Cell cell);

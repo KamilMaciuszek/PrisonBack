@@ -5,6 +5,7 @@ using PrisonBack.Auth;
 using PrisonBack.Domain.Models;
 using PrisonBack.Domain.Services;
 using PrisonBack.Resources;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -28,24 +29,37 @@ namespace PrisonBack.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<CellVM> SelectedCell([FromHeader] int id)
+        public ActionResult<CellVM> SelectedCell(int id)
         {
             var cell = _cellService.SelectedCell(id);
             return Ok(_mapper.Map<CellVM>(cell));
         }
         [HttpGet]
 
-        public async Task<IEnumerable<Cell>> AllCell()
+        public ActionResult<Cell> AllCell()
         {
-            string userName = User.Identity.Name;
-            var cell = await _cellService.AllCell(userName);
-            return cell;
+            string userName =  User.Identity.Name;
+            try
+            {
+                
+                var cell = _cellService.AllCell(userName);
+                return new JsonResult(cell);
+            }
+            catch(Exception ex)
+            {
+                _loggerService.AddLog(controller, ex.Message, userName);
+                return NoContent();
+            }
         }
+       
         [HttpPost]
         public ActionResult<CellVM> AddCell([FromBody] CellDTO cellDTO)
         {
             string userName = User.Identity.Name;
-
+            if(cellDTO == null)
+            {
+                return NotFound();
+            }
             var cellModel = _mapper.Map<Cell>(cellDTO);
             cellModel.IdPrison = _cellService.PrisonID(userName);
 
@@ -59,7 +73,7 @@ namespace PrisonBack.Controllers
             return Ok();
         }
         [HttpDelete("{id}")]
-        public ActionResult DeleteCell([FromBody] int id)
+        public ActionResult DeleteCell(int id)
         {
             string userName = User.Identity.Name;
             var cell = _cellService.SelectedCell(id);
@@ -73,7 +87,7 @@ namespace PrisonBack.Controllers
             return Ok();
         }
         [HttpPut("{id}")]
-        public ActionResult UpdateCell([FromBody] int id, [FromBody] CellDTO cellDTO)
+        public ActionResult UpdateCell(int id, [FromBody] CellDTO cellDTO)
         {
             string userName = User.Identity.Name;
             var cell = _cellService.SelectedCell(id);

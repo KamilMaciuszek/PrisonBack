@@ -16,10 +16,10 @@ namespace PrisonBack.Persistence.Repositories
         {
 
         }
-        public async Task<IEnumerable<Cell>> AllCell(string userName)
+        public List<Cell> AllCell(string userName)
         {
             var prison = _context.UserPermissions.FirstOrDefault(x => x.UserName == userName);
-            return await _context.Cells.Include(t => t.CellType).Where(x => x.IdPrison == prison.IdPrison).ToListAsync();
+            return _context.Cells.Include(t => t.CellType).Where(x => x.IdPrison == prison.IdPrison).ToList();
         }
         public Cell SelectedCell(int id)
         {
@@ -35,6 +35,11 @@ namespace PrisonBack.Persistence.Repositories
             {
                 throw new ArgumentNullException(nameof(cell));
 
+            }
+            var cellTypes = _context.CellTypes.FirstOrDefault(x => x.Id == cell.IdCellType);
+            if(cellTypes == null)
+            {
+                throw new ArgumentNullException(nameof(cell));
             }
             _context.Cells.Add(cell);
         }
