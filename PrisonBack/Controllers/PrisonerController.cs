@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using PrisonBack.Domain.Models;
 using PrisonBack.Domain.Services;
@@ -28,14 +29,14 @@ namespace PrisonBack.Controllers
 			_mapper = mapper;
 			_loggerService = loggerService;
 		}
+		[DisableCors]
 		[HttpGet("{id}")]
-
-
 		public ActionResult<PrisonerVM> SelectedPrisoner(int id)
 		{
 			var prisoner = _prisonerService.SelectedPrisoner(id);
 			return Ok(_mapper.Map<PrisonerVM>(prisoner));
 		}
+		[DisableCors]
 		[HttpGet]
 		public async Task<IEnumerable<Prisoner>> AllPrisoner()
 		{
@@ -43,6 +44,7 @@ namespace PrisonBack.Controllers
 			var prisoner = await _prisonerService.AllPrisoner(userName);
 			return prisoner;
 		}
+		[DisableCors]
 		[HttpPost]
 		public ActionResult<PrisonerVM> AddPrisoner([FromBody] PrisonerDTO prisonerDTO)
 		{
@@ -54,6 +56,7 @@ namespace PrisonBack.Controllers
 
 			return Ok();
 		}
+		[DisableCors]
 		[HttpDelete("{id}")]
 		public ActionResult DeletePrisoner(int id)
 		{
@@ -71,6 +74,7 @@ namespace PrisonBack.Controllers
 
 			return Ok();
 		}
+		[DisableCors]
 		[HttpPut("{id}")]
 		public ActionResult UpdatePrisoner(int id, [FromBody] PrisonerDTO prisonerDTO)
 		{

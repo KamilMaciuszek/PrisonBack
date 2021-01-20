@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using PrisonBack.Auth;
 using PrisonBack.Domain.Models;
@@ -27,13 +28,14 @@ namespace PrisonBack.Controllers
             _mapper = mapper;
             _loggerService = loggerService;
         }
-
+        [DisableCors]
         [HttpGet("{id}")]
         public ActionResult<CellVM> SelectedCell(int id)
         {
             var cell = _cellService.SelectedCell(id);
             return Ok(_mapper.Map<CellVM>(cell));
         }
+        [DisableCors]
         [HttpGet]
 
         public ActionResult<Cell> AllCell()
@@ -51,7 +53,7 @@ namespace PrisonBack.Controllers
                 return NoContent();
             }
         }
-       
+        [DisableCors]
         [HttpPost]
         public ActionResult<CellVM> AddCell([FromBody] CellDTO cellDTO)
         {
@@ -72,6 +74,7 @@ namespace PrisonBack.Controllers
             _loggerService.AddLog(controller, "Dodano nową cele", userName);
             return Ok();
         }
+        [DisableCors]
         [HttpDelete("{id}")]
         public ActionResult DeleteCell(int id)
         {
@@ -86,6 +89,7 @@ namespace PrisonBack.Controllers
             _loggerService.AddLog(controller, "Usunięto cele o ID " + cell.Id, userName);
             return Ok();
         }
+        [DisableCors]
         [HttpPut("{id}")]
         public ActionResult UpdateCell(int id, [FromBody] CellDTO cellDTO)
         {

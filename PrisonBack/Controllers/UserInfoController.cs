@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using PrisonBack.Domain.Services;
 using PrisonBack.Resources.ViewModels;
@@ -19,6 +20,7 @@ namespace PrisonBack.Controllers
         {
             _userInfoService = userInfoService;
         }
+        [DisableCors]
         [HttpGet]
         public ActionResult<UserInfoVM> UserInfo()
         {

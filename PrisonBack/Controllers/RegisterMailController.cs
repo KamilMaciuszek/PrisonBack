@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using PrisonBack.Auth;
 using PrisonBack.Mailing;
@@ -20,6 +21,7 @@ namespace PrisonBack.Controllers
         {
             _mailService = mailService;
         }
+        [DisableCors]
         [HttpPost("send")]
         public async Task<IActionResult> SendMail([FromBody] MailRequest request)
         {

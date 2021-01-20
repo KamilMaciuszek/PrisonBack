@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using PrisonBack.Domain.Models;
 using PrisonBack.Domain.Services;
@@ -20,6 +21,7 @@ namespace PrisonBack.Controllers
 			_cellTypeService = cellTypeService;
 
 		}
+		[DisableCors]
 		[HttpGet]
 		public async Task<IEnumerable<CellType>> AllCellType()
 		{

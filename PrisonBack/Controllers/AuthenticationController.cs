@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -38,7 +39,7 @@ namespace PrisonBack.Controllers
             _addUserService = addUserService;
             _notificationService = notificationService;
         }
-
+        [DisableCors]
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
@@ -79,7 +80,7 @@ namespace PrisonBack.Controllers
             }
             return Unauthorized();
         }
-
+        [DisableCors]
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
@@ -106,6 +107,7 @@ namespace PrisonBack.Controllers
             _addUserService.AddUserToPrison(model.InviteCode, model.UserName);
             return Ok(new Response { Status = "Success", Message = "Utworzono użytkownika!" });
         }
+        [DisableCors]
         [HttpPost]
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)

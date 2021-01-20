@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using PrisonBack.Auth;
 using PrisonBack.Domain.Models;
@@ -23,6 +24,7 @@ namespace PrisonBack.Controllers
 
             _loggerService = loggerService;
         }
+        [DisableCors]
         [HttpGet]
         public async Task<IEnumerable<Logger>> AllLogs()
         {
